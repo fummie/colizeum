@@ -1,42 +1,57 @@
 import React, { useState } from "react";
-import { InputGroup, DropdownButton, Dropdown, FormControl } from "react-bootstrap";
+import { InputGroup, DropdownButton, Dropdown, FormControl, Form, Col, Button } from "react-bootstrap";
+import { servers } from "./servers";
 
 import "./Smart-search.scss";
 
 const SmartSearch = () => {
-	const [server, setServer] = useState("RU");
+	const [server, setServer] = useState(servers[0]);
 
-	const serverSelect = (eventKey) => {
-		setServer(eventKey);
+	const serverSelect = (userServer) => {
+		setServer(userServer);
+	};
+
+	const search = (event) => {
+		event.preventDefault();
+		const input = document.getElementById("input-group-form-1").value;
+		console.log(`server: ${server.id}\ninput: ${input}`);
 	};
 
 	return(
-		<InputGroup className="mb-3" size="lg">
-			<DropdownButton
-				as={InputGroup.Prepend}
-				variant="outline-secondary"
-				title={server}
-				id="input-group-dropdown-1"
-				onSelect={(eventKey) => {serverSelect(eventKey)}}
-			>
-				<Dropdown.Item eventKey="BR1">BR1</Dropdown.Item>
-				<Dropdown.Item eventKey="EUN1">EUN1</Dropdown.Item>
-				<Dropdown.Item eventKey="EUW1">EUW1</Dropdown.Item>
-				<Dropdown.Item eventKey="JP1">JP1</Dropdown.Item>
-				<Dropdown.Item eventKey="KR">KR</Dropdown.Item>
-				<Dropdown.Item eventKey="LA1">LA1</Dropdown.Item>
-				<Dropdown.Item eventKey="LA2">LA2</Dropdown.Item>
-				<Dropdown.Item eventKey="NA1">NA1</Dropdown.Item>
-				<Dropdown.Item eventKey="OC1">OC1</Dropdown.Item>
-				<Dropdown.Item eventKey="TR1">TR1</Dropdown.Item>
-				<Dropdown.Item eventKey="RU">RU</Dropdown.Item>
-			</DropdownButton>
-
-			<FormControl 
-				aria-describedby="basic-addon1"
-				placeholder="Summoner or Team name"
-			/>
-		</InputGroup>
+		<Form>
+			<Form.Row>
+				<Col>
+					<InputGroup className="mb-3" size="lg">
+						<DropdownButton
+							as={InputGroup.Prepend}
+							variant="outline-secondary"
+							title={server.name}
+							id="input-group-dropdown-1"
+						>
+							{servers.map((el) => { return(
+								<Dropdown.Item key={el.id} onSelect={() => {serverSelect(el)}}>
+									{el.name}
+								</Dropdown.Item>)})}
+						</DropdownButton>
+						<FormControl 
+							aria-describedby="basic-addon1"
+							placeholder="Summoner or Team name"
+							id="input-group-form-1"
+						/>
+					</InputGroup>
+				</Col>
+				<Col xs="auto">
+					<Button 
+						type="submit"
+						className="mb-2"
+						size="lg"
+						onClick={search}
+					>
+						Go!
+					</Button>
+				</Col>
+			</Form.Row>
+		</Form>
 	);
 };
 
