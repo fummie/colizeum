@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import { InputGroup, DropdownButton, Dropdown, FormControl, Form, Col, Button } from "react-bootstrap";
-import { servers } from "./servers";
+import { InputGroup, FormControl, Form, Col, Button } from "react-bootstrap";
+
+import RegionSelector from "../Region-selector";
 
 import "./Smart-search.scss";
 
 const SmartSearch = () => {
-	const [server, setServer] = useState(servers[0]);
+	const regions = require("../../data/regions.json");
 
-	const serverSelect = (userServer) => {
-		setServer(userServer);
-	};
+	const [region, setRegion] = useState(regions[0]);
 
 	const search = (event) => {
 		event.preventDefault();
 		const input = document.getElementById("input-group-form-1").value;
-		console.log(`server: ${server.id}\ninput: ${input}`);
+		console.log(`region: ${region.name}\ninput: ${input}`);
 	};
 
 	return(
@@ -22,17 +21,7 @@ const SmartSearch = () => {
 			<Form.Row>
 				<Col>
 					<InputGroup className="mb-3" size="lg">
-						<DropdownButton
-							as={InputGroup.Prepend}
-							variant="outline-secondary"
-							title={server.name}
-							id="input-group-dropdown-1"
-						>
-							{servers.map((el) => { return(
-								<Dropdown.Item key={el.id} onSelect={() => {serverSelect(el)}}>
-									{el.name}
-								</Dropdown.Item>)})}
-						</DropdownButton>
+						<RegionSelector regions={regions} region={region} setRegion = {setRegion}/>
 						<FormControl 
 							aria-describedby="basic-addon1"
 							placeholder="Summoner or Team name"
