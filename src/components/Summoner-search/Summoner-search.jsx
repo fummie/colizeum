@@ -3,15 +3,13 @@ import { InputGroup, FormControl, Form, Button } from "react-bootstrap";
 
 import PlatformSelector from "../Platform-selector";
 
-import "./Smart-search.scss";
+import "./Summoner-search.scss";
+import platforms from "../../data/platforms.json";
 
-const SmartSearch = () =>
-{
-	const platforms = require("../../data/platforms.json");
-
+const SummonerSearch = () => {
 	const [platform, setPlatform] = useState(platforms[0]);
 
-	const search = (event) => {
+	const onSummonerSearch = (event) => {
 		event.preventDefault();
 		const input = document.getElementById("input-group-form-1").value;
 		console.log(`platform: ${platform.name}\ninput: ${input}`);
@@ -29,12 +27,12 @@ const SmartSearch = () =>
 
 				<FormControl 
 					aria-describedby="basic-addon1" 
-					placeholder="Summoner or Team name" 
+					placeholder="Summoner name" 
 					id="input-group-form-1"
 				/>
 
 				<InputGroup.Append>
-					<Button type="submit" onClick={search}>
+					<Button type="submit" onClick={onSummonerSearch}>
 						Go!
 					</Button>
 				</InputGroup.Append>
@@ -44,4 +42,4 @@ const SmartSearch = () =>
 	);
 };
 
-export default SmartSearch;
+export default SummonerSearch;
