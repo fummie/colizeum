@@ -1,7 +1,6 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
+import { clash } from "./clash";
 
-const rootReducer =  combineReducers({
-
+export const rootReducer =  combineReducers({
+	clash
 });
-
-export default rootReducer;
