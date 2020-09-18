@@ -1,11 +1,9 @@
-import { ADD_SUMMONER } from "../types";
+import { ADD_SUMMONERS } from "../types";
 
 export const summoners = (state = [], action) => {
 	switch (action.type) {
-		case ADD_SUMMONER:
-			const newState = [...state];
-			newState.push(action.summoner);
-			return newState
+		case ADD_SUMMONERS:
+			return action.summoners;
 		default: 
 			return {...state};
 	};

@@ -1,6 +1,6 @@
-import { ADD_SUMMONER } from "../types"
+import { ADD_SUMMONERS } from "../types"
 
-export const addSummoner = summoner => ({
-	type: ADD_SUMMONER,
-	summoner: summoner
+export const addSummoners = summoners => ({
+	type: ADD_SUMMONERS,
+	summoners: summoners
 });
