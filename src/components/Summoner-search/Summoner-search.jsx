@@ -11,8 +11,53 @@ const SummonerSearch = () => {
 
 	const onSummonerSearch = (event) => {
 		event.preventDefault();
-		const input = document.getElementById("input-group-form-1").value;
-		console.log(`platform: ${platform.name}\ninput: ${input}`);
+		const summonerName = document.getElementById("input-group-form-1").value;
+		console.log(`platform: ${platform.name}\ninput: ${summonerName}`);
+
+		const summonerId = getSummonerId(summonerName);
+		const teamId = getTeamId(summonerId);
+		const team = getTeam(teamId);
+		const summoners = getSummoners(summonerId);
+
+		setReduxState(team, summoners);
+	};
+
+	const getTeamId = (summonerId) => {
+		//server fetch get /lol/clash/v1/players/by-summoner/{summonerId}
+		//server return team players list, parse any player in arrray to get teamId
+		const teamId = "some_team_id";
+		return teamId;
+	};
+
+	const getSummonerId = (summonerName) => {
+		//server fetch get /lol/summoner/v4/summoners/by-name/{summonerName}
+		//parse server response to get summonerId
+		const summonerId = "YC6wO0-7gDPkX2RwLhnRF7SI1b0Cnnf5E_5O7DLCfVz8fw";
+		return summonerId;
+	};
+
+	const getTeam = (teamId) => {
+		//server fetch /lol/clash/v1/teams/{teamId}
+		const team = require("../../data/teamExample.json");
+		return team;
+	};
+
+	const getSummoners = (summonerId) => {
+		//server fetch get /lol/clash/v1/players/by-summoner/{summonerId}
+		//for each player in list parse json to get summonerId
+			//server fetch get /lol/summoner/v4/summoners/{encryptedSummonerId}
+			//get summoner json, parse to get accountId
+			//server fetch get /lol/match/v4/matchlists/by-account/{encryptedAccountId}
+			//get match list and append to summoner object
+			const summoners = [];
+			const summoner = require("../../data/summonerExample.json");
+		for (let i = 0; i < 5; i++)
+			summoners.push(summoner);
+		return summoners;
+	};
+
+	const setReduxState = (team, summoners) => {
+		//TO DO set redux state
 	};
 
 	return(
