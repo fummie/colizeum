@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import { clash } from "./clash";
+import { team } from "./team";
+import { summoners } from "./summoners"
 
 export const rootReducer =  combineReducers({
-	clash
+	team,
+	summoners
 });
