@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import { InputGroup, FormControl, Form, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { addSummoners } from "../../redux/actions/summoners";
+import { addTeam } from "../../redux/actions/team";
 
 import PlatformSelector from "../Platform-selector";
 
 import "./Summoner-search.scss";
 import platforms from "../../data/platforms.json";
 
+
 const SummonerSearch = () => {
 	const [platform, setPlatform] = useState(platforms[0]);
+	const dispatch = useDispatch();
+	const summonerState = useSelector(state => state.summoners);
+	const teamState = useSelector(state => state.team);
 
 	const onSummonerSearch = (event) => {
 		event.preventDefault();
@@ -57,7 +64,8 @@ const SummonerSearch = () => {
 	};
 
 	const setReduxState = (team, summoners) => {
-		//TO DO set redux state
+		dispatch(addSummoners(summoners));
+		dispatch(addTeam(team));		
 	};
 
 	return(
