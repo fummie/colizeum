@@ -1,0 +1,13 @@
+	[
+		{"name": "Brasilia", "id": "BR1", "host": "br1.api.riotgames.com"},
+		{"name": "EUN1", "id": "EUN1", "host": "eun1.api.riotgames.com"},
+		{"name": "Europe west", "id": "EUW1", "host": "euw1.api.riotgames.com"},
+		{"name": "Japan", "id": "JP1", "host": "jp1.api.riotgames.com"},
+		{"name": "Korea", "id": "KR", "host": "kr.api.riotgames.com"},
+		{"name": "LA1", "id": "LA1", "host": "la1.api.riotgames.com"},
+		{"name": "LA2", "id": "LA2", "host": "la2.api.riotgames.com"},
+		{"name": "North America", "id": "NA1", "host": "na1.api.riotgames.com"},
+		{"name": "Oceania", "id": "OC1", "host": "oc1.api.riotgames.com"},
+		{"name": "Turkey", "id": "TR1", "host": "tr1.api.riotgames.com"},
+		{"name": "Russia", "id": "RU", "host": "ru.api.riotgames.com"}
+	]
