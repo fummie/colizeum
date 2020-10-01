@@ -9,6 +9,7 @@ React, Redux (react-redux), Bootstrap (react-bootstrap), Sass(js implementation)
 
 ## Script
 
-To run app in developmant mode run:
+To run app in development mode run:
 
+### `cd client`
 ### `yarn start`
