@@ -13,8 +13,8 @@ import platforms from "../../data/platforms.json";
 const SummonerSearch = () => {
 	const [platform, setPlatform] = useState(platforms[0]);
 	const dispatch = useDispatch();
-	const summonerState = useSelector(state => state.summoners);
-	const teamState = useSelector(state => state.team);
+	const summoner = useSelector(state => state.summoners);
+	const team = useSelector(state => state.team);
 
 	const onSummonerSearch = (event) => {
 		event.preventDefault();
