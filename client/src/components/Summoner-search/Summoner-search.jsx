@@ -13,8 +13,9 @@ import platforms from "../../data/platforms.json";
 const SummonerSearch = () => {
 	const [platform, setPlatform] = useState(platforms[0]);
 	const dispatch = useDispatch();
-	const summoner = useSelector(state => state.summoners);
+	const summoners = useSelector(state => state.summoners);
 	const team = useSelector(state => state.team);
+	const server = "http://localhost:8000";
 
 	const onSummonerSearch = (event) => {
 		event.preventDefault();
@@ -50,16 +51,27 @@ const SummonerSearch = () => {
 	};
 
 	const getSummoners = (summonerId) => {
+		const summoners = [];
+
 		//server fetch get /lol/clash/v1/players/by-summoner/{summonerId}
 		//for each player in list parse json to get summonerId
+		const summonerIds = [
+			"YC6wO0-7gDPkX2RwLhnRF7SI1b0Cnnf5E_5O7DLCfVz8fw",
+			"XOLTrth1Jr91J-LAa4td8g7uZY0a-bmx3aST7Lb8WlZO",
+			"iYe6OPrASxnIL7I1ApQm5vYvMZzt0Y34tCj98DgF6fmRREU",
+			"04N_SXG22XK0kma0N8xjeNs3bhrVGa_La1PzsHwGvhg",
+			"7cUro2Zs9mNMZ9HXhdcmUfSBwdMCvhr2_HJHOhiLTth35Q"
+		];
+
+		summonerIds.map(summonerId => {
+			fetch(`${server}/api/getSummoner`, summonerId)
+				.then(summoner => summoner.json())
+				.then(summoner => summoners.push(summoner))
+		});
 			//server fetch get /lol/summoner/v4/summoners/{encryptedSummonerId}
-			//get summoner json, parse to get accountId
+			//get summoner jsons, parse to get accountIds
 			//server fetch get /lol/match/v4/matchlists/by-account/{encryptedAccountId}
 			//get match list and append to summoner object
-			const summoners = [];
-			const summoner = require("../../data/summonerExample.json");
-		for (let i = 0; i < 5; i++)
-			summoners.push(summoner);
 		return summoners;
 	};
 
