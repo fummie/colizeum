@@ -7,8 +7,7 @@ import { addTeam } from "../../redux/actions/team";
 import PlatformSelector from "../Platform-selector";
 
 import "./Summoner-search.scss";
-import platforms from "../../data/platforms.json";
-
+import platforms from "../../data/regions.json";
 
 const SummonerSearch = () => {
 	const [platform, setPlatform] = useState(platforms[0]);
@@ -17,17 +16,27 @@ const SummonerSearch = () => {
 	const team = useSelector(state => state.team);
 	const server = "http://localhost:8000";
 
-	const onSummonerSearch = (event) => {
+	const onSummonerSearch = async (event) => {
 		event.preventDefault();
 		const summonerName = document.getElementById("input-group-form-1").value;
 		console.log(`platform: ${platform.name}\ninput: ${summonerName}`);
 
-		const summonerId = getSummonerId(summonerName);
-		const teamId = getTeamId(summonerId);
-		const team = getTeam(teamId);
-		const summoners = getSummoners(summonerId);
+		const summonerId = await getSummonerId(summonerName);
+		//const teamId = getTeamId(summonerId);
+		//const team = getTeam(teamId);
+		//const summoners = getSummoners(summonerId);
 
-		setReduxState(team, summoners);
+		//setReduxState(team, summoners);
+	};
+
+  const getSummonerId = async (summonerName) => {
+    try {
+      const req = await fetch(`${server}/api/getSummonerByName`);
+      const body = await req.json()
+      return body['id'];
+    } catch(err) {
+      console.error(err);
+    }
 	};
 
 	const getTeamId = (summonerId) => {
@@ -37,17 +46,8 @@ const SummonerSearch = () => {
 		return teamId;
 	};
 
-	const getSummonerId = (summonerName) => {
-		//server fetch get /lol/summoner/v4/summoners/by-name/{summonerName}
-		//parse server response to get summonerId
-		const summonerId = "YC6wO0-7gDPkX2RwLhnRF7SI1b0Cnnf5E_5O7DLCfVz8fw";
-		return summonerId;
-	};
-
 	const getTeam = (teamId) => {
-		//server fetch /lol/clash/v1/teams/{teamId}
-		const team = require("../../data/teamExample.json");
-		return team;
+
 	};
 
 	const getSummoners = (summonerId) => {
@@ -77,7 +77,7 @@ const SummonerSearch = () => {
 
 	const setReduxState = (team, summoners) => {
 		dispatch(addSummoners(summoners));
-		dispatch(addTeam(team));		
+		dispatch(addTeam(team));
 	};
 
 	return(
