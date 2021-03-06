@@ -7,65 +7,73 @@ import { addTeam } from "../../redux/actions/team";
 import PlatformSelector from "../Platform-selector";
 
 import "./Summoner-search.scss";
-import platforms from "../../data/platforms.json";
-
+import platforms from "../../data/regions.json";
 
 const SummonerSearch = () => {
 	const [platform, setPlatform] = useState(platforms[0]);
 	const dispatch = useDispatch();
-	const summoner = useSelector(state => state.summoners);
+	const summoners = useSelector(state => state.summoners);
 	const team = useSelector(state => state.team);
+	const server = "http://localhost:8000";
 
-	const onSummonerSearch = (event) => {
+	const onSummonerSearch = async (event) => {
 		event.preventDefault();
 		const summonerName = document.getElementById("input-group-form-1").value;
-		console.log(`platform: ${platform.name}\ninput: ${summonerName}`);
 
-		const summonerId = getSummonerId(summonerName);
-		const teamId = getTeamId(summonerId);
-		const team = getTeam(teamId);
-		const summoners = getSummoners(summonerId);
+		const summonerID = await getSummonerID(summonerName);
+		const teamID = await getTeamID(summonerID);
+		const team = await getTeam(teamID);
+		const summoners = await getTeamSummoners(team);
 
 		setReduxState(team, summoners);
 	};
 
-	const getTeamId = (summonerId) => {
-		//server fetch get /lol/clash/v1/players/by-summoner/{summonerId}
-		//server return team players list, parse any player in arrray to get teamId
-		const teamId = "some_team_id";
-		return teamId;
+	const getSummonerID = async (summonerName) => {
+		const summoner = await fetchRiotAPI("/lol/summoner/v4/summoners/by-name/", summonerName);
+		return summoner["id"];
 	};
 
-	const getSummonerId = (summonerName) => {
-		//server fetch get /lol/summoner/v4/summoners/by-name/{summonerName}
-		//parse server response to get summonerId
-		const summonerId = "YC6wO0-7gDPkX2RwLhnRF7SI1b0Cnnf5E_5O7DLCfVz8fw";
-		return summonerId;
+	const getTeamID = async (summonerID) => {
+		const teamMember = await fetchRiotAPI("/lol/clash/v1/players/by-summoner/", summonerID);
+		return teamMember["teamId"];
 	};
 
-	const getTeam = (teamId) => {
-		//server fetch /lol/clash/v1/teams/{teamId}
-		const team = require("../../data/teamExample.json");
+	const getTeam = async (teamID) => {
+		const team = await fetchRiotAPI("/lol/clash/v1/teams/", teamID);
 		return team;
 	};
 
-	const getSummoners = (summonerId) => {
-		//server fetch get /lol/clash/v1/players/by-summoner/{summonerId}
-		//for each player in list parse json to get summonerId
-			//server fetch get /lol/summoner/v4/summoners/{encryptedSummonerId}
-			//get summoner json, parse to get accountId
-			//server fetch get /lol/match/v4/matchlists/by-account/{encryptedAccountId}
-			//get match list and append to summoner object
-			const summoners = [];
-			const summoner = require("../../data/summonerExample.json");
-		for (let i = 0; i < 5; i++)
+	const getTeamSummoners = async (team) => {
+		let summonersIDs = [];
+		team["players"].map(player => summonersIDs.push(player["summonerId"]));
+		let summoners = [];
+		summonersIDs.map(async summonerID => {
+			const summoner = await fetchRiotAPI("/lol/summoner/v4/summoners/", summonerID)
 			summoners.push(summoner);
+		});
 		return summoners;
 	};
 
+	const fetchRiotAPI = async (operation, data) => {
+		try {
+			const body = {operation, data};
+			const request = await fetch(server, {
+				method: "POST",
+				headers: {
+					'Content-Type': 'application/json;charset=utf-8'
+				},
+				body: JSON.stringify(body)
+			});
+			data = await request.json();
+			return data;
+		} catch(err) {
+			console.error(err);
+		};
+	}
+
 	const setReduxState = (team, summoners) => {
 		dispatch(addSummoners(summoners));
-		dispatch(addTeam(team));		
+		dispatch(addTeam(team));
 	};
 
 	return(
