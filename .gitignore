@@ -4,6 +4,8 @@
 /client/node_modules
 /clent/.pnp
 .pnp.js
+/server/pkg
+/server/src
 
 # testing
 /client/coverage
