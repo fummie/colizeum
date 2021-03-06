@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSummoners } from "../../redux/actions/summoners";
 import { addTeam } from "../../redux/actions/team";
 
-import PlatformSelector from "../Platform-selector";
+import RegionSelector from "../Region-selector";
 
 import "./Summoner-search.scss";
-import platforms from "../../data/regions.json";
+import regions from "../../data/regions.json";
 
 const SummonerSearch = () => {
-	const [platform, setPlatform] = useState(platforms[0]);
+	const [region, setRegion] = useState(regions[0]);
 	const dispatch = useDispatch();
 	const summoners = useSelector(state => state.summoners);
 	const team = useSelector(state => state.team);
@@ -80,10 +80,10 @@ const SummonerSearch = () => {
 		<Form>
 			<InputGroup className="mb-3" size="lg">
 
-				<PlatformSelector 
-					platforms={platforms} 
-					platform={platform} 
-					setPlatform = {setPlatform}
+				<RegionSelector 
+					regions={regions} 
+					region={region} 
+					setRegion = {setRegion}
 				/>
 
 				<FormControl 
