@@ -32,6 +32,10 @@ func fetchRiotAPI(writer http.ResponseWriter, request *http.Request) {
 		response, _ = ioutil.ReadFile("./data/summoner.json")
 	case "/lol/clash/v1/players/by-summoner/":
 		response, _ = ioutil.ReadFile("./data/teamMember.json")
+	case "/lol/clash/v1/teams/":
+		response, _ = ioutil.ReadFile("./data/team.json")
+	case "/lol/summoner/v4/summoners/":
+		response, _ = ioutil.ReadFile("./data/summoner.json")
 	}
 
 	writer.Header().Set("Content-Type", "text/json; charset=utf-8")
